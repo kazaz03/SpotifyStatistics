@@ -36,7 +36,6 @@ class HomeActivity : AppCompatActivity() {
                 user= spotifyDAO.getUserDetails("Bearer $token")!!
                 nameOfUser.text= "Hello ${user.displayName}!"
             }*/
-            nameOfUser.text= "Hello $token"
         }
     }
 }
