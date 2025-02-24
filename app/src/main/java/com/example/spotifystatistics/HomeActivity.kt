@@ -25,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
         //spotifyDAO.setContext(this)
+        //alo alo alo
         val extras=intent.extras
         if(extras!=null)
         {
