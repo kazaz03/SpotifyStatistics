@@ -25,7 +25,6 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
         //spotifyDAO.setContext(this)
-        nameOfUser=findViewById(R.id.nameOfUser)
         val extras=intent.extras
         if(extras!=null)
         {
