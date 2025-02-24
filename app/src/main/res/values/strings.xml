@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SpotifyStatistics</string>
+    <string name="menuDescription">Menu inside Toolbar</string>
+    <string name="home">Home</string>
+    <string name="logo">Logo of the App</string>
+    <string name="log_in">Login to Spotify</string>
+    <string name="install">Install Spotify</string>
+</resources>
