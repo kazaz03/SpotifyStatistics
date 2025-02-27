@@ -11,30 +11,28 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.spotifystatistics.databinding.LoginScreenBinding
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 
-
 class MainActivity : AppCompatActivity() {
-    private lateinit var logInButton: Button
-    private lateinit var installSpotifyButton:Button
+    private lateinit var binding: LoginScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.login_screen)
+        binding=LoginScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainContainerLogIn)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        logInButton=findViewById(R.id.logInButton)
-        installSpotifyButton=findViewById(R.id.installSpotifyButton)
-        logInButton.setOnClickListener {
+        binding.logInButton.setOnClickListener {
             //when we click on the button it opens login on spoify in web browser
             startSpotifyLogIn()
         }
-        installSpotifyButton.setOnClickListener {
+        binding.installSpotifyButton.setOnClickListener {
             redirectToPlaystore()
         }
     }

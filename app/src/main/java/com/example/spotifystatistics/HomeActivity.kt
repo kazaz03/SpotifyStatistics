@@ -2,10 +2,13 @@ package com.example.spotifystatistics
 
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import com.example.spotifystatistics.databinding.ActivityHomeBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,14 +18,45 @@ import okhttp3.Dispatcher
 class HomeActivity : AppCompatActivity() {
     private lateinit var nameOfUser: TextView
     private var token:String?=""
+    private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
+        binding=ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //when we first open that the main fragment is shown
+        replaceFragment(HomeFragment())
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        binding.navigationPart.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    Toast.makeText(this, "Home clicked", Toast.LENGTH_SHORT).show()
+                    replaceFragment(HomeFragment())
+                    true
+                }
+                R.id.nav_top -> {
+                    Toast.makeText(this, "Top clicked", Toast.LENGTH_SHORT).show()
+                    replaceFragment(TopFragment())
+                    true
+                }
+                R.id.nav_statistic -> {
+                    Toast.makeText(this, "Statistic clicked", Toast.LENGTH_SHORT).show()
+                    replaceFragment(StatisticFragment())
+                    true
+                }
+                R.id.nav_profile -> {
+                    Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+                    replaceFragment(ProfileFragment())
+                    true
+                }
+                else -> false
+            }
         }
         //spotifyDAO.setContext(this)
         //alo alo alo
@@ -37,5 +71,11 @@ class HomeActivity : AppCompatActivity() {
                 nameOfUser.text= "Hello ${user.displayName}!"
             }*/
         }
+    }
+
+    //funkcija za mijenjanje fragmenata u frame layoutu
+    private fun replaceFragment(fragment: Fragment){
+        var fragmentManager=supportFragmentManager;
+        fragmentManager.beginTransaction().replace(R.id.fragmentPart,fragment).commit()
     }
 }
