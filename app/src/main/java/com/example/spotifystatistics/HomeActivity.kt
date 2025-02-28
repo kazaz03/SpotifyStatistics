@@ -1,6 +1,7 @@
 package com.example.spotifystatistics
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding=ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.appBar.toolBar)
         //when we first open that the main fragment is shown
         replaceFragment(HomeFragment())
 
@@ -36,28 +38,38 @@ class HomeActivity : AppCompatActivity() {
         binding.navigationPart.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    Toast.makeText(this, "Home clicked", Toast.LENGTH_SHORT).show()
                     replaceFragment(HomeFragment())
                     true
                 }
                 R.id.nav_top -> {
-                    Toast.makeText(this, "Top clicked", Toast.LENGTH_SHORT).show()
                     replaceFragment(TopFragment())
                     true
                 }
                 R.id.nav_statistic -> {
-                    Toast.makeText(this, "Statistic clicked", Toast.LENGTH_SHORT).show()
                     replaceFragment(StatisticFragment())
                     true
                 }
                 R.id.nav_profile -> {
-                    Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
                     replaceFragment(ProfileFragment())
                     true
                 }
                 else -> false
             }
         }
+
+        binding.appBar.toolBar.setOnMenuItemClickListener { item->
+            when(item.itemId){
+                R.id.search->{
+                    true
+                }
+                R.id.settings->{
+                    true
+                }else->false
+            }
+        }
+
+        var selectedBottomNavItem=binding.navigationPart.selectedItemId
+
         //spotifyDAO.setContext(this)
         //alo alo alo
         val extras=intent.extras
@@ -77,5 +89,11 @@ class HomeActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment){
         var fragmentManager=supportFragmentManager;
         fragmentManager.beginTransaction().replace(R.id.fragmentPart,fragment).commit()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        var menuinflater=menuInflater
+        menuinflater.inflate(R.menu.toolbar_menu,menu)
+        return true
     }
 }

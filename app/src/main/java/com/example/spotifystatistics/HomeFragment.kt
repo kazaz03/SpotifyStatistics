@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        //this is manipulation with basic data without any views
     }
 
     override fun onCreateView(
