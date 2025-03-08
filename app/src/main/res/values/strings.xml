@@ -15,4 +15,6 @@
     <string name="profilePicDesc">Picture of profile</string>
     <string name="username">Username on Spotify</string>
     <string name="somethin">Something else</string>
+    <string name="followedA">Followed Artists</string>
+    <string name="createPlaylist">Create Playlist</string>
 </resources>

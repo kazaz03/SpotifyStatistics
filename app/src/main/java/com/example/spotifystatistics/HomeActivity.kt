@@ -89,6 +89,7 @@ class HomeActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment){
         var fragmentManager=supportFragmentManager;
         fragmentManager.beginTransaction().replace(R.id.fragmentPart,fragment).commit()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

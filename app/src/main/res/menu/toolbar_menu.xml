@@ -5,7 +5,13 @@
     <item android:title="@string/search"
         android:id="@+id/search"
         android:icon="@drawable/search_icon"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+    <item android:title="@string/createPlaylist"
+        android:id="@+id/createPlaylist"
+        android:icon="@drawable/add_playlist"
+        app:showAsAction="ifRoom"
+        />
     <item android:title="@string/settings"
         android:id="@+id/settings"
         android:icon="@drawable/settings_icon"

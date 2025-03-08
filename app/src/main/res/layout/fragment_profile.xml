@@ -10,4 +10,7 @@
     <include layout="@layout/profile_card"
         android:id="@+id/profileCard" />
 
+    <include layout="@layout/users_followed_artists"
+        android:id="@+id/followedArtistsCard"/>
+
 </LinearLayout>
