@@ -20,6 +20,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var nameOfUser: TextView
     private var token:String?=""
     private lateinit var binding: ActivityHomeBinding
+    private val fragmentStack = mutableMapOf<Int, String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,7 +28,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBar.toolBar)
         //when we first open that the main fragment is shown
-        replaceFragment(HomeFragment())
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -35,22 +35,35 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
+        val extras=intent.extras
+        if(extras!=null)
+        {
+            //dio u kojem se uzima username
+            token=extras.getString("accessToken")
+            /*val scope= CoroutineScope(Job() + Dispatchers.Main)
+            scope.launch {
+                user= spotifyDAO.getUserDetails("Bearer $token")!!
+                nameOfUser.text= "Hello ${user.displayName}!"
+            }*/
+        }
+        replaceFragment(R.id.nav_home)
+
         binding.navigationPart.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(HomeFragment())
+                    replaceFragment(item.itemId)
                     true
                 }
                 R.id.nav_top -> {
-                    replaceFragment(TopFragment())
+                    replaceFragment(item.itemId)
                     true
                 }
                 R.id.nav_statistic -> {
-                    replaceFragment(StatisticFragment())
+                    replaceFragment(item.itemId)
                     true
                 }
                 R.id.nav_profile -> {
-                    replaceFragment(ProfileFragment())
+                    replaceFragment(item.itemId)
                     true
                 }
                 else -> false
@@ -72,25 +85,31 @@ class HomeActivity : AppCompatActivity() {
 
         //spotifyDAO.setContext(this)
         //alo alo alo
-        val extras=intent.extras
-        if(extras!=null)
-        {
-            //dio u kojem se uzima username
-            token=extras.getString("accessToken")
-            /*val scope= CoroutineScope(Job() + Dispatchers.Main)
-            scope.launch {
-                user= spotifyDAO.getUserDetails("Bearer $token")!!
-                nameOfUser.text= "Hello ${user.displayName}!"
-            }*/
-        }
     }
 
     //funkcija za mijenjanje fragmenata u frame layoutu
-    private fun replaceFragment(fragment: Fragment){
-        var fragmentManager=supportFragmentManager;
-        fragmentManager.beginTransaction().replace(R.id.fragmentPart,fragment).commit()
+    private fun replaceFragment(bottomNavId: Int){
+        var fragmentManager=supportFragmentManager
+        var existingFragment=fragmentManager.findFragmentByTag("fragment_$bottomNavId")
+        var Token=token?: ""
 
+        //if there is an existing fragment then just show it, if not make new instance
+        if(existingFragment!=null){
+            fragmentManager.beginTransaction().replace(R.id.fragmentPart,existingFragment,"fragment_$bottomNavId")
+                .setReorderingAllowed(true).commit()
+        }else{
+            val newFragment= when (bottomNavId) {
+                R.id.nav_home->HomeFragment.newInstance(Token)
+                R.id.nav_top->TopFragment.newInstance(Token)
+                R.id.nav_statistic->StatisticFragment.newInstance(Token)
+                R.id.nav_profile->ProfileFragment.newInstance(Token)
+                else->throw IllegalArgumentException("Uknown fragment ID")
+            }
+            fragmentManager.beginTransaction().replace(R.id.fragmentPart,newFragment,"fragment_$bottomNavId")
+                .setReorderingAllowed(true).addToBackStack("fragment_$bottomNavId").commit()
+        }
     }
+    //fragmentPart is container in which we put fragments
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var menuinflater=menuInflater
