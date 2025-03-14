@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,7 +21,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var nameOfUser: TextView
     private var token:String?=""
     private lateinit var binding: ActivityHomeBinding
-    private val fragmentStack = mutableMapOf<Int, String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,6 +34,21 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed(){
+                //function for handling press of back button
+                //creating an instance of onbackpressedcallback
+                var fragmentManager=supportFragmentManager
+                if(fragmentManager.backStackEntryCount>1){
+                    //if there are 2 fragments saved than we can go back to the old one
+                    fragmentManager.popBackStack()
+                    var bottomNavId=binding.navigationPart.selectedItemId
+                    val currentFragment=fragmentManager.findFragmentByTag("fragment_$bottomNavId")
+                    
+                }
+            }
+        })
 
         val extras=intent.extras
         if(extras!=null)
@@ -96,7 +111,7 @@ class HomeActivity : AppCompatActivity() {
         //if there is an existing fragment then just show it, if not make new instance
         if(existingFragment!=null){
             fragmentManager.beginTransaction().replace(R.id.fragmentPart,existingFragment,"fragment_$bottomNavId")
-                .setReorderingAllowed(true).commit()
+                .setReorderingAllowed(true).addToBackStack("fragment_$bottomNavId").commit()
         }else{
             val newFragment= when (bottomNavId) {
                 R.id.nav_home->HomeFragment.newInstance(Token)
