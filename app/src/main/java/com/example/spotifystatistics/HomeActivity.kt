@@ -1,6 +1,7 @@
 package com.example.spotifystatistics
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.spotifystatistics.databinding.ActivityHomeBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,10 +44,21 @@ class HomeActivity : AppCompatActivity() {
                 var fragmentManager=supportFragmentManager
                 if(fragmentManager.backStackEntryCount>1){
                     //if there are 2 fragments saved than we can go back to the old one
+                    Log.d("kolko ih ima u backstacku prije: ",fragmentManager.backStackEntryCount.toString())
                     fragmentManager.popBackStack()
-                    var bottomNavId=binding.navigationPart.selectedItemId
-                    val currentFragment=fragmentManager.findFragmentByTag("fragment_$bottomNavId")
-                    
+                    fragmentManager.executePendingTransactions()
+                    Log.d("kolko ih ima u backstacku poslije: ",fragmentManager.backStackEntryCount.toString())
+                    //turning off the listener so that it doesnt call replacefragment
+                    binding.navigationPart.setOnItemSelectedListener(null)
+                    val currentFragment=fragmentManager.findFragmentById(R.id.fragmentPart)
+                    when (currentFragment){
+                        is HomeFragment-> binding.navigationPart.selectedItemId=R.id.nav_home
+                        is ProfileFragment->binding.navigationPart.selectedItemId=R.id.nav_profile
+                        is StatisticFragment->binding.navigationPart.selectedItemId=R.id.nav_statistic
+                        is TopFragment->binding.navigationPart.selectedItemId=R.id.nav_top
+                    }
+                }else {
+                    finish() //closing the app if at the first fragment
                 }
             }
         })
@@ -96,14 +109,13 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        var selectedBottomNavItem=binding.navigationPart.selectedItemId
-
         //spotifyDAO.setContext(this)
         //alo alo alo
     }
 
     //funkcija za mijenjanje fragmenata u frame layoutu
     private fun replaceFragment(bottomNavId: Int){
+        Log.d("uslo se ovdje iz nekog razloga: ",bottomNavId.toString())
         var fragmentManager=supportFragmentManager
         var existingFragment=fragmentManager.findFragmentByTag("fragment_$bottomNavId")
         var Token=token?: ""
