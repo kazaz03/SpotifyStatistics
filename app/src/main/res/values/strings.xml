@@ -17,4 +17,6 @@
     <string name="somethin">Something else</string>
     <string name="followedA">Followed Artists</string>
     <string name="createPlaylist">Create Playlist</string>
+    <string name="info">Info</string>
+    <string name="stats">Stats</string>
 </resources>

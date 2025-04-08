@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +68,7 @@ class ProfileFragment : Fragment() {
     private fun openArtistInfoFragment(name: String){
         //parent fragment manager because im already in a fragment that has its fm
         val fragmentManager=parentFragmentManager
-        fragmentManager.beginTransaction().replace(R.id.fragmentPart,ArtistInfoFragment())
+        fragmentManager.beginTransaction().replace(R.id.fragmentPart,ArtistFragment())
             .setReorderingAllowed(true).addToBackStack(null).commit()
     }
     companion object {
