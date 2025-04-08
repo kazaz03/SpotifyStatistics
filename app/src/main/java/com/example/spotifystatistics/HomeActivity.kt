@@ -1,6 +1,9 @@
 package com.example.spotifystatistics
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.widget.TextView
@@ -10,26 +13,23 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
 import com.example.spotifystatistics.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var nameOfUser: TextView
     private var token:String?=""
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navListener: BottomNavigationView.OnNavigationItemSelectedListener
+    private var backPressedTwice: Boolean=false
+    private lateinit var context: Context
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding=ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBar.toolBar)
+        context=this
         //when we first open that the main fragment is shown
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -42,6 +42,19 @@ class HomeActivity : AppCompatActivity() {
             override fun handleOnBackPressed(){
                 //function for handling press of back button
                 //creating an instance of onbackpressedcallback
+                //pressing back two times in a row
+                if(backPressedTwice){
+                    finish()
+                    return
+                }
+                backPressedTwice=true
+                Toast.makeText(context,"Press once again to exit!",Toast.LENGTH_SHORT).show()
+
+                //if not pressed again in the span of 2 seconds backpressedtwice is false
+                var mainHandler= Handler(Looper.getMainLooper())
+                var r=Runnable{ backPressedTwice=false}
+                mainHandler.postDelayed(r,2000)
+
                 var fragmentManager=supportFragmentManager
                 if(fragmentManager.backStackEntryCount>1){
                     //if there are 2 fragments saved than we can go back to the old one
