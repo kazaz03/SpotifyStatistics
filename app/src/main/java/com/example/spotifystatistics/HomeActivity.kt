@@ -23,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var nameOfUser: TextView
     private var token:String?=""
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var navListener: BottomNavigationView.OnNavigationItemSelectedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,11 +58,14 @@ class HomeActivity : AppCompatActivity() {
                         is StatisticFragment->binding.navigationPart.selectedItemId=R.id.nav_statistic
                         is TopFragment->binding.navigationPart.selectedItemId=R.id.nav_top
                     }
+                    binding.navigationPart.setOnItemSelectedListener(navListener)
                 }else {
                     finish() //closing the app if at the first fragment
                 }
             }
         })
+
+        setNavigationListener()
 
         val extras=intent.extras
         if(extras!=null)
@@ -75,28 +79,6 @@ class HomeActivity : AppCompatActivity() {
             }*/
         }
         replaceFragment(R.id.nav_home)
-
-        binding.navigationPart.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    replaceFragment(item.itemId)
-                    true
-                }
-                R.id.nav_top -> {
-                    replaceFragment(item.itemId)
-                    true
-                }
-                R.id.nav_statistic -> {
-                    replaceFragment(item.itemId)
-                    true
-                }
-                R.id.nav_profile -> {
-                    replaceFragment(item.itemId)
-                    true
-                }
-                else -> false
-            }
-        }
 
         binding.appBar.toolBar.setOnMenuItemClickListener { item->
             when(item.itemId){
@@ -142,5 +124,29 @@ class HomeActivity : AppCompatActivity() {
         var menuinflater=menuInflater
         menuinflater.inflate(R.menu.toolbar_menu,menu)
         return true
+    }
+    private fun setNavigationListener() {
+        navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    replaceFragment(item.itemId)
+                    true
+                }
+                R.id.nav_top -> {
+                    replaceFragment(item.itemId)
+                    true
+                }
+                R.id.nav_statistic -> {
+                    replaceFragment(item.itemId)
+                    true
+                }
+                R.id.nav_profile -> {
+                    replaceFragment(item.itemId)
+                    true
+                }
+                else -> false
+            }
+        }
+        binding.navigationPart.setOnItemSelectedListener(navListener)
     }
 }

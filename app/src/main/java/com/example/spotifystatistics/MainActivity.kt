@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun startSpotifyLogIn(){
         // AuthorizationRequest to spotify
         val builder = AuthorizationRequest.Builder(BuildConfig.CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI)
+        //the token returns to the redirect_uri adress
         builder.setScopes(arrayOf("streaming"))
         builder.setShowDialog(true)
         val request = builder.build()
@@ -113,6 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onNewIntent(intent: Intent?) {
+        //odgovor kad presretne tu rutu
         super.onNewIntent(intent)
         val uri:Uri?= intent?.data;
         if(uri!=null){

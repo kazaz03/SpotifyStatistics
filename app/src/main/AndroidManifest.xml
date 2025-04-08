@@ -35,7 +35,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
+                <!--aktivnost moze da presretne tu rutu-->
                 <data
                     android:host="callback"
                     android:scheme="statistics" />
