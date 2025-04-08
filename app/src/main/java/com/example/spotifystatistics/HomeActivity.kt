@@ -48,7 +48,6 @@ class HomeActivity : AppCompatActivity() {
                     return
                 }
                 backPressedTwice=true
-                Toast.makeText(context,"Press once again to exit!",Toast.LENGTH_SHORT).show()
 
                 //if not pressed again in the span of 2 seconds backpressedtwice is false
                 var mainHandler= Handler(Looper.getMainLooper())

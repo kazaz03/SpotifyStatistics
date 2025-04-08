@@ -11,6 +11,6 @@
         android:id="@+id/profileCard" />
 
     <include layout="@layout/users_followed_artists"
-        android:id="@+id/followedArtistsCard"/>
+        android:id="@+id/followedArtists"/>
 
 </LinearLayout>
