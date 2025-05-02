@@ -19,4 +19,5 @@
     <string name="createPlaylist">Create Playlist</string>
     <string name="info">Info</string>
     <string name="stats">Stats</string>
+    <string name="artist_pic">Pic of an artist</string>
 </resources>
